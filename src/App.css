@@ -1,0 +1,16 @@
+.ques--set{
+   height: 60px;
+   width: 550px;
+   left: 1284px;
+   border-radius: 0px;
+   margin-bottom: 40px;
+}
+
+.options{
+  display: flex;
+  justify-content: space-between;
+}
+
+button{
+  cursor: pointer;
+}
