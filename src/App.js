@@ -5,6 +5,19 @@ import Ques from "./Ques"
 const short = require('short-uuid');
 export default function App() {
   const [allQues, setAllQues] = React.useState([]);
+  const [ans, updateAns] = React.useState(0)
+
+  function setOptions(correct_answer ,incorrect_answers){
+     let random = Math.floor(Math.random() * incorrect_answers.length)
+     incorrect_answers.splice(random, 0, correct_answer);
+     let optionsObj = incorrect_answers.map((val) => ({
+        option: val,
+        oid: short.generate(),
+        isSelected: false
+     }))
+
+     return optionsObj;
+  }
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple")
@@ -16,21 +29,24 @@ export default function App() {
               correct_answer: oneQues.correct_answer,
               incorrect_answers: oneQues.incorrect_answers,
               id: short.generate(),
-              answered: false
+              answered: false,
+              optionsObj: setOptions(oneQues.correct_answer, oneQues.incorrect_answers)
             }
            ))
           
-          
+           
           setAllQues(filteredData)
         
         })
   },[])
  
-
+ 
  function handleAnsClick(id){
        let foundObj = allQues.find(obj => obj.id===id)
        foundObj.answered= true;
-       console.log(foundObj.id)
+       foundObj.optionsObj.isSelected = true;
+       console.log(allQues[1].optionsObj)
+       updateAns((oldans) => oldans+1)
  }
  
   const quesElements =  allQues.map((obj) => (
@@ -41,6 +57,7 @@ export default function App() {
         incorrect_answers= {obj.incorrect_answers}
         id= {obj.id}
         handleAnsClick= {() => handleAnsClick(obj.id)}
+        optionsObj= {obj.optionsObj}
         />
   ))
 
