@@ -2,18 +2,24 @@ import React from "react";
 
 export default function Ques(props){
     
-    let statement = props.quesObj.question;
-    let inAns = props.quesObj.incorrect_answers;
-    let coAns = props.quesObj.correct_answer;
+    let statement = props.question;
+    let inAns = props.incorrect_answers;
+    let coAns = props.correct_answer;
     inAns.push(coAns)
     
-    function handleOptClick(e){
-        e.style.backgroundColor = "green"
+    let styles = {
+        backgroundColor: 'green' 
     }
-
-    let btns = inAns.map((opt)=> (
-        <button onClick={handleOptClick}>{opt}</button>
-    ))
+    
+    let btns = inAns.map((opt) => {
+       
+       return (<button 
+               style={styles}
+               onClick={props.handleAnsClick} 
+               >{opt}
+               
+               </button>
+    )})
     return(
         <div className="ques--set">
             <p >{statement}</p>
